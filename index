@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AmigoS Society Dashboard</title>
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --card-bg: #ffffff;
+    --secondary-bg: #ececea;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6a66;
+    --border: rgba(0,0,0,0.08);
+    --accent: #534AB7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.25rem; }
+  .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 1.5rem; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .metric {
+    background: var(--secondary-bg);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .metric p:first-child { font-size: 13px; color: var(--text-secondary); margin: 0; }
+  .metric p:last-child { font-size: 22px; font-weight: 600; margin: 4px 0 0; }
+  #search {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    margin-bottom: 1rem;
+    background: var(--card-bg);
+    color: var(--text-primary);
+  }
+  .table-wrap {
+    overflow-x: auto;
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 800px; }
+  th, td { padding: 10px 8px; text-align: right; white-space: nowrap; }
+  th:nth-child(1), td:nth-child(1), th:nth-child(2), td:nth-child(2) { text-align: left; }
+  th { color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--secondary-bg); }
+  tfoot td { font-weight: 600; border-top: 1px solid var(--border); }
+  footer { text-align: center; color: var(--text-secondary); font-size: 12px; margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>AmigoS Society</h1>
+  <p class="subtitle">Member loans &amp; savings overview</p>
+
+  <div class="metrics">
+    <div class="metric"><p>Members</p><p>17</p></div>
+    <div class="metric"><p>Loan outstanding</p><p>₹2,92,950</p></div>
+    <div class="metric"><p>Monthly installment</p><p>₹53,900</p></div>
+    <div class="metric"><p>Savings total</p><p>₹3,75,000</p></div>
+    <div class="metric"><p>Amount at bank</p><p>₹60000</p></div>
+    <div class="metric"><p>Amount at cashier</p><p>₹3,9200</p></div>
+	
+	
+  </div>
+
+  <input id="search" type="text" placeholder="Search by name...">
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th>Loan amount</th>
+        <th>Outstanding</th>
+        <th>Installment</th>
+        <th>Interest</th>
+        <th>Fine</th>
+        <th>Monthly inst.</th>
+        <th>Min. amount</th>
+        <th>Savings</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"></td>
+        <td id="t-out"></td>
+        <td></td>
+        <td id="t-int"></td>
+        <td></td>
+        <td id="t-mon"></td>
+        <td></td>
+        <td id="t-sav"></td>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <footer>AmigoS Society &middot; Read-only data view</footer>
+</div>
+
+<script>
+const data = [
+[1,"Abhijith Unni",8000,7500,500,50,0,1550,1050,22000],
+[2,"Abhilash",26600,26600,2500,150,0,3650,1150,22000],
+[3,"Abhinand",30000,27000,3000,150,0,4150,1150,22000],
+[4,"Agarsh",30000,27000,3000,150,0,4150,1150,22000],
+[5,"Amal Anandh",30000,30000,3000,150,0,4150,1150,22000],
+[6,"Amal Appuse",25000,13550,2500,100,0,3600,1100,22000],
+[7,"Amjith",0,0,0,0,0,1000,1000,23000],
+[8,"Arjun",30000,27000,3000,150,0,4150,1150,22000],
+[9,"Arun",30000,27000,3000,150,200,4350,1350,22000],
+[10,"Athul",30000,24150,3000,150,0,4150,1150,22000],
+[11,"Binesh",6000,3500,500,50,0,1550,1050,22000],
+[12,"Gopesh",0,0,0,0,0,1000,1000,22000],
+[13,"Hari",25000,17500,2500,100,0,3600,1100,22000],
+[14,"Libin",0,0,0,0,0,1000,1000,22000],
+[15,"Sharjas",30000,22150,3000,150,0,4150,1150,22000],
+[16,"Sidhy",25000,10000,2500,50,0,3550,1050,22000],
+[17,"Vishnu",30000,30000,3000,150,0,4150,1150,22000]
+];
+
+const fmt = n => '₹' + n.toLocaleString('en-IN');
+
+function render(rows) {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${r[0]}</td>
+      <td>${r[1]}</td>
+      <td>${fmt(r[2])}</td>
+      <td>${fmt(r[3])}</td>
+      <td>${fmt(r[4])}</td>
+      <td>${fmt(r[5])}</td>
+      <td>${fmt(r[6])}</td>
+      <td>${fmt(r[7])}</td>
+      <td>${fmt(r[8])}</td>
+      <td>${fmt(r[9])}</td>
+    </tr>
+  `).join('');
+}
+render(data);
+
+document.getElementById('t-out').textContent = fmt(292950);
+document.getElementById('t-int').textContent = fmt(1700);
+document.getElementById('t-mon').textContent = fmt(53900);
+document.getElementById('t-sav').textContent = fmt(375000);
+
+document.getElementById('search').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  render(data.filter(r => r[1].toLowerCase().includes(q)));
+});
+</script>
+</body>
+</html>
